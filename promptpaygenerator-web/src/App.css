@@ -6,10 +6,12 @@
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: 150px;
+  width: 150px;
+  padding: 1em;
   will-change: filter;
   transition: filter 300ms;
+  object-fit: contain;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -53,4 +55,23 @@
   font-size: 16px;
   transition: border-color 0.3s ease;
   outline: none;
+}
+
+.button{
+  width: 100%;
+  max-width: 200px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  outline: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: drop-shadow(0 0 2em #646cff);
 }

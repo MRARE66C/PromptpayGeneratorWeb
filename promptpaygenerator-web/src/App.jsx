@@ -1,12 +1,39 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import promptpayLogo from './assets/icon-thaiqr.png'
 import './App.css'
 
 function App() {
   const [promptpayId, setPromptpayId] = useState('');
   const [Amount, setAmount] = useState('');
-  const [genrate, setgenerate] = useState(0)
+  const apiUrl = import.meta.env.VITE_SERVER_API_URL || '';
+
+  console.log(apiUrl);
+
+  const handleGenerateQr = async () => {
+    const payload = { id: promptpayId };
+    if (Amount && !isNaN(parseFloat(Amount))) {
+      payload.amount = parseFloat(Amount);
+    }
+
+    try {
+      const response = await fetch(`${apiUrl}/generate-qr`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('QR code generated:', data);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  };
 
   return (
     <>
@@ -34,7 +61,7 @@ function App() {
           className='Input'
         />
       </div>
-      <button>
+      <button className='button' onClick={handleGenerateQr}>
         Generate
       </button>
     </>
