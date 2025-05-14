@@ -5,6 +5,7 @@ import './App.css'
 function App() {
   const [promptpayId, setPromptpayId] = useState('');
   const [Amount, setAmount] = useState('');
+  const [qrCodeImageUrl, setQrCodeImageUrl] = useState('');
   const apiUrl = import.meta.env.VITE_SERVER_API_URL || '';
 
   console.log(apiUrl);
@@ -30,8 +31,10 @@ function App() {
 
       const data = await response.json();
       console.log('QR code generated:', data);
+      setQrCodeImageUrl(data.imageUrl);
     } catch (error) {
       console.error('Error generating QR code:', error);
+      setQrCodeImageUrl('');
     }
   };
 
@@ -64,6 +67,11 @@ function App() {
       <button className='button' onClick={handleGenerateQr}>
         Generate
       </button>
+      {qrCodeImageUrl && (
+        <div className="qr-code-container">
+          <img src={qrCodeImageUrl} alt="PromptPay QR Code" />
+        </div>
+      )}
     </>
   )
 }
