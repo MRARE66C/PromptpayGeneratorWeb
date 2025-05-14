@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+
+.Input{
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
