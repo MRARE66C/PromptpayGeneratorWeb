@@ -6,6 +6,7 @@ function App() {
   const [promptpayId, setPromptpayId] = useState('');
   const [Amount, setAmount] = useState('');
   const [qrCodeImageUrl, setQrCodeImageUrl] = useState('');
+  const [idError, setIdError] = useState('');
   const apiUrl = import.meta.env.VITE_SERVER_API_URL || '';
 
   console.log(apiUrl);
@@ -52,9 +53,23 @@ function App() {
           type="text"
           placeholder="Phone number or National ID"
           value={promptpayId}
-          onChange={(e) => setPromptpayId(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, ''); // Only allow digits
+            // Validate: 10-digit phone starting with 0 or 13-digit national ID
+            if (value.length === 0) {
+              setPromptpayId('');
+              setIdError('');
+            } else if ((value.length === 10 && value.startsWith('0')) || value.length === 13) {
+              setPromptpayId(value);
+              setIdError('');
+            } else {
+              setPromptpayId(value);
+              setIdError('Promptpay ID must be a 10-digit phone number starting with 0 or a 13-digit national ID');
+            }
+          }}
           className='Input'
         />
+        {idError && <div style={{ color: 'red', fontSize: '0.9em' }}>{idError}</div>}
         <h3>Amount (THB)</h3>
         <input
           type="text"
@@ -64,11 +79,12 @@ function App() {
           className='Input'
         />
       </div>
-      <button className='button' onClick={handleGenerateQr}>
+      <button className='button' onClick={handleGenerateQr} disabled={!!idError || !promptpayId}>
         Generate
       </button>
       {qrCodeImageUrl && (
         <div className="qr-code-container">
+          <h3>Your Promptpay QR</h3>
           <img src={qrCodeImageUrl} alt="PromptPay QR Code" />
         </div>
       )}
