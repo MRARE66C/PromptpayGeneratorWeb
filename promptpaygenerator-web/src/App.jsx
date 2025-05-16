@@ -6,6 +6,7 @@ function App() {
   const [promptpayId, setPromptpayId] = useState('');
   const [Amount, setAmount] = useState('');
   const [qrCodeImageUrl, setQrCodeImageUrl] = useState('');
+  const [qrData, setQrData] = useState('');
   const [idError, setIdError] = useState('');
   const apiUrl = import.meta.env.VITE_SERVER_API_URL || '';
 
@@ -33,6 +34,7 @@ function App() {
       const data = await response.json();
       console.log('QR code generated:', data);
       setQrCodeImageUrl(data.imageUrl);
+      setQrData(data.qrData || '');
     } catch (error) {
       console.error('Error generating QR code:', error);
       setQrCodeImageUrl('');
@@ -86,6 +88,32 @@ function App() {
         <div className="qr-code-container">
           <h3>Your Promptpay QR</h3>
           <img src={qrCodeImageUrl} alt="PromptPay QR Code" />
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '10px' }}>
+            <button 
+              className='button'
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = qrCodeImageUrl;
+                link.download = 'promptpay-qr.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
+            >
+              Download QR Code
+            </button>
+            {qrData && (
+              <button
+                className='button'
+                onClick={() => {
+                  navigator.clipboard.writeText(qrData);
+                  alert('QR data copied to clipboard!');
+                }}
+              >
+                Copy QR Data
+              </button>
+            )}
+          </div>
         </div>
       )}
     </>
