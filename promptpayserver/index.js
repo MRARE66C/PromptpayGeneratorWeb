@@ -5,6 +5,9 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
+// Trust first proxy
+app.set('trust proxy', 1);
+
 // Create rate limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes

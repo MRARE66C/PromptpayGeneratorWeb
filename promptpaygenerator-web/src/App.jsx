@@ -8,7 +8,11 @@ function App() {
   const [qrCodeImageUrl, setQrCodeImageUrl] = useState('');
   const [qrData, setQrData] = useState('');
   const [idError, setIdError] = useState('');
-  const apiUrl = import.meta.env.VITE_SERVER_API_URL || '';
+  const apiUrl = import.meta.env.VITE_SERVER_API_URL ? 
+    (import.meta.env.VITE_SERVER_API_URL.startsWith('http') ? 
+      import.meta.env.VITE_SERVER_API_URL : 
+      `https://${import.meta.env.VITE_SERVER_API_URL}`) : 
+    '';
 
   console.log(apiUrl);
 
